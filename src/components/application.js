@@ -9,7 +9,7 @@ import MarkAllAsUnpacked from './mark-all-as-unpacked';
 import NewItem from './new-item';
 
 const Application = () => {
-  const { items } = useContext(ItemsContext);
+  const items = useItems();
 
   const unpackedItems = filterItems(items, { packed: false });
   const packedItems = filterItems(items, { packed: true });
