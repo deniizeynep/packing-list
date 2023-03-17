@@ -1,8 +1,12 @@
 import clsx from 'clsx';
-import { useState } from 'react';
+import { memo, useState } from 'react';
+import { ItemsContext } from '../lib/context';
+import { updateItem } from '../lib/items';
+import {remove, update} from '../lib/reducer'
 
 const Item = ({ item, dispatch }) => {
   const [editing, setEditing] = useState(false);
+  const { dispatch } = useContext(ItemsContext);
 
   return (
     <li className="flex items-center gap-2">
@@ -11,7 +15,7 @@ const Item = ({ item, dispatch }) => {
         className="focus:bg-red-500"
         checked={item.packed}
         id={`toggle-${item.id}`}
-        onChange={() => dispatch(update(item.id, { packed: !item.packed }))}
+        onChange={() => dispatch(update({ id :item.id,  packed: !item.packed }))}
       />
       <label
         htmlFor={`toggle-${item.id}`}
@@ -23,7 +27,7 @@ const Item = ({ item, dispatch }) => {
         value={item.name}
         id={`edit-${item.id}`}
         className={clsx('py-0 text-sm', { hidden: !editing })}
-        onChange={() => setItems(items => updateItem(items, item.id, {packed: !item.packed}))}
+        onChange={() => dispatch(items => updateItem(items, item.id, {packed: !item.packed}))}
       />
       <div className="flex gap-2">
         <button
